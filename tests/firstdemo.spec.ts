@@ -1,11 +1,16 @@
 import { expect, test } from '@playwright/test';
 
 // COMMANDS TO RUN TESTS:
-// single file: npx playwright test <filename>
-// all files: npx playwright test
-// headed(opens browsers, slower, for when writing test cases): npx playwright test --headed <filename>
+// npx playwright test <filename>                                        | test single file
+// npx playwright test                                                   | test all files
+// npx playwright test --headed <filename>                               | headed(opens browsers, slower, for when writing test cases)
 // headless (faster, for stable test cases): leave out --headless
-// see which test cases will be identified for a command: npx playwright test --list / npc playwright test <filename> --list
+// npx playwright test --list / npc playwright test <filename> --list    | see which test cases will be identified for a command
+// npx playwright test <filename>:<line number>                          | run one test case, at this line number
+// npx playwright test <filename>:<line number> -- list                  | list the test case, at this line number
+// npx playwright test firstdemo.spec.ts:36 --project chromium --list    | '--project chromium' lists test cases for chrome browser only
+// npx playwright test firstdemo.spec.ts:36 --project chromium           | run 1 test case at line 36 for chrome browser
+// npx playwright test firstdemo.spec.ts --project chromium --workers <number>  | run test cases with x number of workers. if its 2 workers, playwright will run the tests in parallel with 2 worker processes. Tests will be divided among the workers. If worker=1, the tests will run sequentially 
 
 // should not be a blocking call, so that other processes in other tests can run
 // so, we make the lambda asynchronous and await
@@ -15,6 +20,7 @@ test('testing google search page', async ({ page }) => {
     await page.goto('https://www.google.com'); // need to wait for this to come back
 
     await expect(page).toHaveTitle('Google');
+    // await expect(page.title()).resolves.toBe('Google');
 });
 
 test('testing bing search page', async({ page }) => {
@@ -27,4 +33,34 @@ test('testing tv tropes', async ({ page }) => {
     await page.goto('https://tvtropes.org/');
 
     await expect(page).toHaveTitle('TV Tropes');
+});
+
+// helpful if there is a 'data-testId' attribute in html
+// test not working - so test.skip
+test.skip('testing google search page for india', async ({ page }) => {
+    await page.goto('https://www.google.com');
+    // Confirm that we are at Google
+    await expect(page).toHaveTitle('Google');
+
+    // Get the search box
+    // no need await as this fn getByLabel is not returning a promise. Returning a locator
+    // also an ASSERTION. If it cannot find the element in the DOM tree, test will be marked as fail
+    let searchBox = page.getByLabel('Search', { exact: true });
+    // Fill search box with 'India'
+    await searchBox.fill('india');
+    // Press Enter
+    await searchBox.press('Enter'); // instead of page.keyboard.press('Enter'), to be more specific
+
+    await expect(page).toHaveTitle('india - Google search');
+});
+
+test('testing duckduckgo search page for india', async ({ page }) => {
+    await page.goto('https://www.duckduckgo.com');
+    await expect(page).toHaveTitle('DuckDuckGo - Protection. Privacy. Peace of mind.');
+
+    let searchBox = page.getByLabel('Search with DuckDuckGo', { exact: true });
+    await searchBox.fill('india');
+    await searchBox.press('Enter');
+
+    await expect(page).toHaveTitle('india at DuckDuckGo');
 });
