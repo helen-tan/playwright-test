@@ -11,6 +11,7 @@ import { expect, test } from '@playwright/test';
 // npx playwright test firstdemo.spec.ts:36 --project chromium --list    | '--project chromium' lists test cases for chrome browser only
 // npx playwright test firstdemo.spec.ts:36 --project chromium           | run 1 test case at line 36 for chrome browser
 // npx playwright test firstdemo.spec.ts --project chromium --workers <number>  | run test cases with x number of workers. if its 2 workers, playwright will run the tests in parallel with 2 worker processes. Tests will be divided among the workers. If worker=1, the tests will run sequentially 
+// npx playwright test firstdemo.spec.ts:60 --project firefox --workers 1 --trace on | 'trace on' - will show the trace viewer (takes screenshots of the test)
 
 // should not be a blocking call, so that other processes in other tests can run
 // so, we make the lambda asynchronous and await
@@ -54,6 +55,9 @@ test.skip('testing google search page for india', async ({ page }) => {
     await expect(page).toHaveTitle('india - Google search');
 });
 
+// note: duckduckgo test will fail when running in headless (no browser appearing). When running in headed, it passes.
+// we usually are not aware how a production site will respond to automation
+// so its a best practice to test in a test environment where we have control of the environment. Testing a public site is not best
 test('testing duckduckgo search page for india', async ({ page }) => {
     await page.goto('https://www.duckduckgo.com');
     await expect(page).toHaveTitle('DuckDuckGo - Protection. Privacy. Peace of mind.');
@@ -62,5 +66,5 @@ test('testing duckduckgo search page for india', async ({ page }) => {
     await searchBox.fill('india');
     await searchBox.press('Enter');
 
-    await expect(page).toHaveTitle('india at DuckDuckGo');
+    await expect(page).toHaveTitle('india at DuckDuckGo', { timeout: 10000 });
 });
