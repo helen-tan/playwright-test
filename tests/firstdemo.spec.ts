@@ -74,3 +74,15 @@ test('testing duckduckgo search page for india', async ({ page }) => {
 
     await expect(page).toHaveTitle('india at DuckDuckGo', { timeout: 10000 });
 });
+
+test.describe('google search home page', () => {
+    const url = 'https://www.google.com';
+    test('goto google', async ({ page }) => {
+        await page.goto(url);
+    });
+
+    test('check google title', async ({ page }) => {
+        await page.goto(url);
+        await expect(page).toHaveTitle('Google');
+    });
+}) 
