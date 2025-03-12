@@ -13,6 +13,9 @@ import { expect, test } from '@playwright/test';
 // npx playwright test firstdemo.spec.ts --project chromium --workers <number>  | run test cases with x number of workers. if its 2 workers, playwright will run the tests in parallel with 2 worker processes. Tests will be divided among the workers. If worker=1, the tests will run sequentially 
 // npx playwright test firstdemo.spec.ts:60 --project firefox --workers 1 --trace on | 'trace on' - will show the trace viewer (takes screenshots of the test)
 // npx playwright test --ui                                               | shows a ui dashboard for running test cases. no test cases run yet.
+// npx playwright test -g duckduckgo --project "Microsoft Edge" --headed  | "-g duckduckgo" runs only tests whose name contains 'duckduckgo'
+// npx playwright test -g duckduckgo --project "Mobile Chrome" --headed   | 'Mobile Chrome' will change the viewport size (must declare a project 'Mobile Chrome' in playwright.config.ts)
+
 
 // should not be a blocking call, so that other processes in other tests can run
 // so, we make the lambda asynchronous and await
