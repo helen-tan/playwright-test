@@ -99,5 +99,20 @@ test('search google wait', async ({ page }) => {
     await expect(page).toHaveTitle('Google');
 
     // let searchBox = page.getByLabel(LABEL, { exact: true });
-    let searchBox = page.locator('css=#searchbox_input'); // can put CSSPath. no need to put css bcos playwright can tell
+    let searchBoxLocator = page.locator('css=#searchbox_input'); // can put CSSPath. no need to put css bcos playwright can tell
+    await searchBoxLocator.clear();
+    await searchBoxLocator.fill('funny');
+    await searchBoxLocator.press('Enter');
+
+    // flaky way
+    // let title = await page.title(); // can be flaky because the page title might not be fully loaded when page.title() is called. This will just take whatever title thats present at that moment.
+    // expect(title).toBe('Google'); // assertion will not retry if failed
+ 
+    // better way:
+    // expect(page).toHaveTitle() keeps retrying until the title matches or the timeout expires.
+    await expect(page).toHaveTitle('funny - Google Search', { timeout: 7000 });
+
+    // allow for F or f with regex
+    // await expect(page).toHaveTitle(/funny - Google Search/i);
+
 });
