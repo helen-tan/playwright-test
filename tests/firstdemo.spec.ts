@@ -65,7 +65,7 @@ test.skip('testing google search page for india', async ({ page }) => {
 // we usually are not aware how a production site will respond to automation
 // so its a best practice to test in a test environment where we have control of the environment. Testing a public site is not best
 test('testing duckduckgo search page for india', async ({ page }) => {
-    await page.goto('https://www.duckduckgo.com');
+    await page.goto('/');
     await expect(page).toHaveTitle('DuckDuckGo - Protection. Privacy. Peace of mind.');
 
     let searchBox = page.getByLabel('Search with DuckDuckGo', { exact: true });
