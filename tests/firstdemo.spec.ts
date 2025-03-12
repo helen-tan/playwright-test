@@ -15,6 +15,8 @@ import { expect, test } from '@playwright/test';
 // npx playwright test --ui                                               | shows a ui dashboard for running test cases. no test cases run yet.
 // npx playwright test -g duckduckgo --project "Microsoft Edge" --headed  | "-g duckduckgo" runs only tests whose name contains 'duckduckgo'
 // npx playwright test -g duckduckgo --project "Mobile Chrome" --headed   | 'Mobile Chrome' will change the viewport size (must declare a project 'Mobile Chrome' in playwright.config.ts)
+// npx playwright test -g duckduckgo --reporter <reporter type: list, html, json... etc.>  | If no reporter is set in playwright.config.ts, Playwright defaults to list. Can override it using --reporter in the command line
+// npx playwright test -g duckduckgo --reporter list                      | '--reporter list' sets the test result output format to list. The list reporter prints the summary of test results in a simple readable format.
 
 
 // should not be a blocking call, so that other processes in other tests can run
