@@ -68,10 +68,15 @@ test('testing duckduckgo search page for india', async ({ page }) => {
     await page.goto('https://www.duckduckgo.com');
     await expect(page).toHaveTitle('DuckDuckGo - Protection. Privacy. Peace of mind.');
 
-    let searchBox = page.getByLabel('Search with DuckDuckGo', { exact: true });
+    // let searchBox = page.getByLabel('Search with DuckDuckGo', { exact: true });
+    // let searchBox = page.locator('#searchbox_input'); // using css selector
+    let searchBox = page.locator('//*[@id="searchbox_input"]'); // using XPath
+    // let searchButton = page.getByRole('button', { name: 'Search' });
+    let searchButton = page.getByLabel('Search', { exact: true }); // this button has an aria-label, so getByLabel will work. but must be exact in this case
     await searchBox.fill('india');
-    await searchBox.press('Enter');
-
+    // await searchBox.press('Enter');
+    await searchButton.click();
+    
     await expect(page).toHaveTitle('india at DuckDuckGo', { timeout: 10000 });
 });
 
@@ -85,4 +90,14 @@ test.describe('google search home page', () => {
         await page.goto(url);
         await expect(page).toHaveTitle('Google');
     });
+
 }) 
+
+test('search google wait', async ({ page }) => {
+    const LABEL = 'Search';
+    await page.goto('https://www.google.com');
+    await expect(page).toHaveTitle('Google');
+
+    // let searchBox = page.getByLabel(LABEL, { exact: true });
+    let searchBox = page.locator('css=#searchbox_input'); // can put CSSPath. no need to put css bcos playwright can tell
+});
