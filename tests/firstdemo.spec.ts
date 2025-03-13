@@ -111,6 +111,9 @@ test('search google wait', async ({ page }) => {
     // better way:
     // expect(page).toHaveTitle() keeps retrying until the title matches or the timeout expires.
     await expect(page).toHaveTitle('funny - Google Search', { timeout: 7000 });
+    // one way to avoid flaky tests is to use playwright's methods that have built-in retry mechanisms
+    // e.g. better to use the locator method to get a page title rather than just storing the title in a variable 
+    // bcos page might not be fully loaded when the title is being stored
 
     // allow for F or f with regex
     // await expect(page).toHaveTitle(/funny - Google Search/i);
