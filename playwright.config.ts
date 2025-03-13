@@ -34,6 +34,10 @@ export default defineConfig({
 
     // person: 'user1'
   },
+  // Global setup & teardown
+  globalSetup: 'global.setup.ts',
+
+  globalTeardown: 'global.teardown.ts',
 
   /* Configure projects for major browsers */
   projects: [
