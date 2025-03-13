@@ -1,0 +1,4 @@
+"username", "password", "some_value"
+"user1", "secret", "data123"
+"user2", "verysecret", "info456"
+"user3", "encrypt", "valuevalue"
